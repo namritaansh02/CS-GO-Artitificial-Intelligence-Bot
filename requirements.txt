@@ -1,0 +1,10 @@
+keras==2.8.0
+lxml==4.8.0
+matplotlib==3.5.2
+mss==6.1.0
+numpy==1.22.3
+opencv_python==4.5.5.64
+Pillow==9.1.0
+PyAutoGUI==0.9.53
+tensorflow==2.8.0
+tensorflow_gpu==2.8.0
