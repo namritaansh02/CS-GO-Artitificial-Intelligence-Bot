@@ -144,6 +144,9 @@ class YOLO(object):
             box = out_boxes[i]
             score = out_scores[i]
 
+            if predicted_class=='th' or predicted_class=='ch':
+                continue
+
             #label = '{} {:.2f}'.format(predicted_class, score)
             label = '{}'.format(predicted_class)
             scores = '{:.2f}'.format(score)
@@ -212,7 +215,7 @@ def process_image(img):
     img_clean = np.copy(img)
 
     r_image, ObjectsList = yolo.detect_image(img)
-    return r_image 
+    return r_image, ObjectsList 
     #if len(ObjectsList) > 0:
     #    CreateXMLfile(img_clean, ObjectsList)
     for i in range(len(ObjectsList)):

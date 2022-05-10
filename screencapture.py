@@ -3,11 +3,7 @@ from PIL import ImageGrab
 import cv2
 import time
 from directkeys import PressKey, ReleaseKey, W, A, S, D  
-from realtime_detect import process_image
-
-# for i in list(range(4))[::-1]:
-#     print(i+1)
-#     time.sleep(1)
+from realtime_detect import process_image, Shoot
 
 def debug_keypress(request):    
     while(request):
@@ -17,11 +13,22 @@ def debug_keypress(request):
         print('up')
         ReleaseKey(W)
 
+def process_objects(ObjectList):
+    if bool_shoot:
+        for object in ObjectList:
+            top, left, bottom, right, mid_v, mid_h, label, scores = object 
+            if float(scores)>0.5:
+                print(object)
+                Shoot(mid_h, mid_v)
+
 last_time = time.time()
+bool_shoot = False
 
 while(True):
     screen = np.array(ImageGrab.grab(bbox=(0,40,1280,640)))
-    new_screen = process_image(cv2.cvtColor(screen, cv2.COLOR_BGR2RGB))
+    
+    new_screen, ObjectList = process_image(cv2.cvtColor(screen, cv2.COLOR_BGR2RGB))
+    process_objects(ObjectList)
     
     print('Loop took {} seconds'.format(time.time()-last_time))
     last_time = time.time()
