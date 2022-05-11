@@ -147,7 +147,6 @@ class YOLO(object):
             if predicted_class=='th' or predicted_class=='ch':
                 continue
 
-            #label = '{} {:.2f}'.format(predicted_class, score)
             label = '{}'.format(predicted_class)
             scores = '{:.2f}'.format(score)
 
@@ -188,13 +187,6 @@ class YOLO(object):
         r_image, ObjectsList = self.detect_image(original_image_color)
         return r_image, ObjectsList
 
-def Shoot(mid_x, mid_y):
-  #x = int(mid_x*width)
-  #y = int(mid_y*height)
-  #y = int(mid_y*height+height/9)
-  pyautogui.moveTo(mid_x,mid_y)
-  pyautogui.click()
-
 def GRABMSS_screen(p_input):
     while True:
         #Grab screen image
@@ -206,49 +198,6 @@ def GRABMSS_screen(p_input):
 yolo = YOLO()
 
 def process_image(img):
-    global fps, start_time
-
-    # while True:
-        # img = p_output.recv()
-        # img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
-        # img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
-    img_clean = np.copy(img)
-
+    global fps, start_time1
     r_image, ObjectsList = yolo.detect_image(img)
-    return r_image, ObjectsList 
-    #if len(ObjectsList) > 0:
-    #    CreateXMLfile(img_clean, ObjectsList)
-    for i in range(len(ObjectsList)):
-        if ObjectsList[i][6] == "th":
-            offset = 35
-            pyautogui.moveTo(ObjectsList[i][4], ObjectsList[i][5]+offset)
-            image_x = r_image.shape[1] / 2
-            image_y = (r_image.shape[0] / 2)+ offset
-            # shot only when aiming to head
-            target_interval = 20
-            cv2.circle(r_image,(int(image_x),int(image_y)), 4, (255,0,255), -1)
-            if ObjectsList[i][4] < image_x+target_interval and ObjectsList[i][4] > image_x-target_interval:
-                if ObjectsList[i][5]+offset < image_y+target_interval and ObjectsList[i][5]+offset > image_y-target_interval:
-                    print("aiming to head !")
-                    pyautogui.click()
-
-        # cv2.imshow("YOLO v3", r_image)
-        # fps+=1
-        # TIME = time.time() - start_time
-        # if (TIME) >= display_time :
-        #     print("FPS: ", fps / (TIME))
-        #     fps = 0
-        #     start_time = time.time()
-        # if cv2.waitKey(1) & 0xFF == ord('q'): break
-        
-        
-# if __name__=="__main__":
-#     p_output, p_input = Pipe()
-
-#     # creating new processes
-#     p1 = multiprocessing.Process(target=GRABMSS_screen, args=(p_input,))
-#     p2 = multiprocessing.Process(target=SHOWMSS_screen, args=(p_output,))
-
-#     # starting our processes
-#     p1.start()
-#     p2.start()
+    return r_image, ObjectsList
