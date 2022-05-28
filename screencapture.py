@@ -1,5 +1,6 @@
 import numpy as np
 from PIL import ImageGrab
+from PIL import Image
 import cv2
 import time
 from directkeys import PressKey, ReleaseKey, W, A, S, D  
@@ -18,11 +19,21 @@ def debug_keypress(request):
         ReleaseKey(W)
 
 last_time = time.time()
+# is_full_screen = input("Full screen?(1/0): ")
 
 while(True):
-    screen = np.array(ImageGrab.grab(bbox=(0,40,1280,640)))
+    screen = np.array(ImageGrab.grab(bbox=()))
+    # screen = np.array(screen_to_be_cap)
     new_screen = process_image(cv2.cvtColor(screen, cv2.COLOR_BGR2RGB))
+    print("new_screen.shape : " + str(new_screen.shape))
+
+
     
+    img = new_screen[1000:1080,1700:1800,:]
+    print("img.shape : " + str(img.shape))
+    cv2.imshow('window2', img)
+
+
     print('Loop took {} seconds'.format(time.time()-last_time))
     last_time = time.time()
     
